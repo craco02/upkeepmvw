@@ -116,11 +116,13 @@ document.getElementById("listaDocs").addEventListener("change", () => {
   if (url.startsWith("link:")) {
     const realUrl = url.replace("link:", "");
     fallbackLink.href = realUrl;
-    fallbackLink.textContent = "modelo 3D";
+    fallbackLink.textContent = "Abrir modelo 3D";
     fallback.style.display = "inline-flex";
     visor.src = ""; // limpiar iframe
   } else {
     fallback.style.display = "none";
+    fallbackLink.textContent = "Abrir documento PDF";
+    fallbackLink.href = "#";
     if (url) {
       visor.src = url;
     } else {

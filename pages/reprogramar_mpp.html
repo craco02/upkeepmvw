@@ -6,7 +6,6 @@
         <title>Mantenimiento Metalúrgica Vera SRL</title>
         <link rel="icon" href="../img/Logo.png" type="image/png" sizes="32x32">
         <link rel="stylesheet" href="../css/styles.css">
-        <link rel="stylesheet" href="../css/estilo-visor.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
     <body>
@@ -55,39 +54,45 @@
         </header>
 
         <!--<hr>-->
-        <section class="selector-doc">
-            <div class="select-title">
-                <!--nuevo sector-->
-                <h2>Visor de documentos técnicos</h2>
-            </div>
-            <div class="container-select">
-                <label for="listaDocs">Archivo seleccionado:</label>
-                <!-- Select dinámico -->
-                <select class="pg-select" id="listaDocs" onchange="mostrarPDF()" aria-label="Archivo seleccionado">
-                    <option value="">-- Elegir documento --</option>
-                </select>
-            </div>
 
-            <div class="pg-iframe">
-                <!-- Iframe para mostrar PDF -->
-                <iframe id="visor"
-                title="Visor de documento técnico"
-                width="1080"
-                height="800">
-                </iframe>
+            <main class="solicitud">
+                <div class="titulo"><h2>Reprogramación de Mantenimiento Preventivo</h2></div>
+                <form id="formReprogramarMPP" action="/api/mantenimientos-preventivos/reprogramacion" method="post">
+                    <div>
+                        <label for="maquina">Mantenimiento</label>
+                        <select id="maquina" name="id" required></select>
+                    </div>
                 
-                <div id="fallback">
-                    <p>
-                    <a id="fallback-link" href="#" target="_blank" rel="noopener noreferrer" title="Abrir documento PDF" aria-label="Abrir documento PDF">Abrir documento PDF</a>
-                    </p>
-                </div>
 
-                <script src="../js/iframe-pdf.js"></script>
+                    <div>
+                        <label for="fecha_rep">Seleccione la fecha de reprogramación:</label>
+                        <input class="fecha-reprogramacion" type="date" id="fecha_rep" name="reprogramacion_inicio" required>
+                    </div>
 
-            </div>   
-                <!--fin de nuevo sector--> 
-        </section>
-  
+                    <div>
+                        <label for="motivo_reprogramacion">Motivo de reprogramación</label>
+                        <textarea id="motivo_reprogramacion" name="motivo_reprogramacion" rows="4" required></textarea>
+                    </div>
+
+                    <div>
+                        <label for="solicitante_reprogramacion">Solicitante de la reprogramación</label>
+                        <input type="text" id="solicitante_reprogramacion" name="solicitante_reprogramacion" required>
+                    </div>
+
+                    <div>
+                        <label for="comunicado_reprogramacion">Como fue comunicada la reprogramación</label>
+                        <input type="text" id="comunicado_reprogramacion" name="comunicado_reprogramacion" placeholder="Ejemplo: Por correo/Por mensaje de Whatsapp" required >
+                    </div>
+
+                    <button type="submit">Reprogramar Mantenimiento</button>
+                </form>
+
+                <script src="../js/mpp-alert.js"></script>
+                <script src="../js/mantenimientos-preventivos-select.js"></script>
+                <script src="../js/reprogramar-mpp.js"></script>
+
+            </main>
     </body>
-    
 </html>
+
+

@@ -1,26 +1,54 @@
-<!DOCTYPE html>
+ñ<!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Mantenimiento Metalúrgica Vera SRL</title>
         <link rel="icon" href="./img/Logo.png" type="image/png" sizes="32x32">
-        <link rel="stylesheet" href="./css/estilos.css">
+        <link rel="stylesheet" href="./css/styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <link rel="stylesheet" href="./css/footer-estilo.css">
     </head>
     <body>
-        <header >
-            <nav class="nav-bar">
-                 <ul class="list-bar">
-                    <li><a href="./index.html">Inicio</a></li>
-                    <li><a href="./index.html#solicitudes">Solicitudes</a></li>
-                    <li><a href="./index.html#informaciones">Informaciones</a></li>
-                    <li><a href="./index.html#form-adds">Formularios</a></li>
-                    <li><a href="./index.html#otros">Otros</a></li>
-                    <li><a href="./index.html#contacto">Contacto</a></li>
-                 </ul>
+        <header>
+            <nav class="nav-bar" aria-label="Navegación principal">
+                <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="nav-menu-wrap">
+                    <ul class="list-bar">
+                        <li><a href="./index.html">Inicio</a></li>
+                        <li><a href="./index.html#solicitudes">Solicitudes</a></li>
+                        <li><a href="#mpp">MPP</a></li>
+                        <li><a href="./index.html#informaciones">Informaciones</a></li>
+                        <li><a href="./index.html#form-adds">Formularios</a></li>          
+                        <li><a href="./index.html#otros">Otros</a></li>
+                        <li><a href="./index.html#contacto">Contacto</a></li>
+                    </ul>
+                    <div id="nav-login"></div>
+                </div>
             </nav>
+           
+            <!-- Modal de Login -->
+            <div id="loginModal" class="login-modal">
+            <div class="login-modal-content">
+                <span id="closeLoginModal" class="login-close">&times;</span>
+                <h2>Inicio de Sesión</h2>
+                <form id="loginForm">
+                <label for="user">Usuario:</label>
+                <input type="text" id="user" name="user" required>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Enviar</button>
+                </form>
+                <div id="loginMensaje"></div>
+            </div>
+            <!-- Llamada al JS separado -->
+            <script src="./js/api-config.js"></script>
+            <script src="./js/login-modal.js"></script>
+            <script src="./js/nav-responsive.js"></script>
+
+            </div>
             <div class="banner">
             <div class="logo"><img height="150" width="150" src="./img/Logo.png" alt="logo metalurgica vera"></div>
             <div class="hero">
@@ -33,13 +61,18 @@
         <!--<hr>-->
 
         <main class="inicio" id="inicio">
-            <h2>Servicios disponibles</h2>
+            <h2>Servicios disponibles.</h2>
 
             <div class="principal"> 
                 <!-- 1 -->
                 <figure class="card">
                     <a href="#solicitudes" ><img height="120" width="200" src="img/solicitudes.webp" alt="Solicitud de mantenimiento"></a>
                     <figcaption>Solicitudes de Mantenimiento</figcaption>
+                </figure>
+                <!--1.1-->
+                <figure class="card">
+                    <a href="#mpp" ><img height="120" width="200" src="img/mpp.png" alt="Mantenimiento Preventivo Programado"></a>
+                    <figcaption>Mantenimiento Preventivo Programado</figcaption>
                 </figure>
     
                 <!-- 2 -->
@@ -89,19 +122,19 @@
             <div class="solicitudes-description">
                 <div class="form-container">
                     <div class="item-formularios">
-                    <a href="./pages/formulario-simple.html?src=https://forms.office.com/Pages/ResponsePage.aspx?id=NZva7YvtyUWWTKbrPuRyG1OEneEhG35AiBW0QyXPVf9UNlM3REw3WE5OV1dCWTUyRklCSlJTTEtCTi4u"><p><span>📝</span> Crear solicitud</p></a>
+                    <a href="./pages/solicitud.html"><p><span>📝</span> Crear solicitud</p></a>
                 </div>
 
                 <div class="item-formularios">
-                    <a href="./pages/formulario-simple.html?src=https://forms.office.com/Pages/ResponsePage.aspx?id=NZva7YvtyUWWTKbrPuRyG1OEneEhG35AiBW0QyXPVf9UNUlWRFpEVExGWkkxWTVPWEhKRU5NWTJGOC4u"><p><span>👷‍♂️</span> Asignar técnicos</p></a>
+                    <a href="./pages/asinar.html"><p><span>👷‍♂️</span> Asignar técnicos</p></a>
                 </div>
 
                 <div class="item-formularios">
-                    <a href="./pages/formulario-simple.html?src=https://forms.office.com/Pages/ResponsePage.aspx?id=NZva7YvtyUWWTKbrPuRyG1OEneEhG35AiBW0QyXPVf9UNDBKU1MyTklWR0oyNEtNVzVUVEVaOUVRNC4u"><p><span>✅</span> Cerrar solicitudes</p></a>
+                    <a href="./pages/cierre.html"><p><span>✅</span> Cerrar solicitudes</p></a>
                 </div>
 
                 <div class="item-formularios">
-                    <a href="./pages/formulario-simple.html?src=https://forms.office.com/Pages/ResponsePage.aspx?id=NZva7YvtyUWWTKbrPuRyG1OEneEhG35AiBW0QyXPVf9URUZKSDBWUklVTjJaWVo2SUFYVE5PS0M0OC4u"><p><span>💻</span> Modificar solicitud</p></a>
+                    <a href="./pages/modificar.html"><p><span>💻</span> Modificar solicitud</p></a>
                 </div>
 
                 <div class="item-formularios">
@@ -109,13 +142,84 @@
                 </div>
 
                 <div class="item-formularios">
-                    <a href="https://mvaceros-my.sharepoint.com/:l:/g/personal/reparaciones_metalurgicavera_com_py/JADaNrqZYp0FT439K_zu9Ws6AQ4D9HEJD_9wg4OuNPvNXgk?e=fgu5ic" target="_blank" rel="noopener noreferrer"><p><span>📋</span> Ver solicitudes</p></a>
+                    <a href="./pages/lista_solicitudes.html" ><p><span>📋</span> Ver solicitudes</p></a>
                 </div>
                 <div class="item-formularios">
-                    <a href="https://mvaceros-my.sharepoint.com/:f:/g/personal/reparaciones_metalurgicavera_com_py/IgB1papcP7-_QINHGUKmw25gATS1Z1W9BoJDKumush1dfxM?e=hDnCXL" target="_blank" rel="noopener noreferrer"><p><span>📁</span> Ver informes digitales</p></a>
+                    <a href="./pages/modulo_solicitudes.html"><p><span>📁</span> Ver informes digitales</p></a>
+                </div>
+                <div class="item-formularios">
+                    <a href="./pages/baja.html"><p><span>🛑</span> Dar de baja equipos</p></a>
                 </div>
             </div>
                
+        </section>
+
+        <section id="mpp" class="mpp-section" aria-label="Ciclo de mantenimiento preventivo">
+            <div class="mpp-header">
+                <h2>Mantenimiento Preventivo Programado</h2>
+            </div>
+
+            <div class="mpp-cycle">
+                <a class="mpp-step mpp-step-5" href="./pages/vista_mpp.html" aria-label="Programar mantenimientos preventivos">
+                    <div class="mpp-label">Programar<br />Mantenimientos Preventivos</div>
+                    <div class="mpp-node mpp-node-gold mpp-node-top">
+                        <div class="mpp-node-icon mpp-calendar large">
+                            <span class="mpp-calendar-top"></span>
+                            <span class="mpp-calendar-date">F</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a class="mpp-step mpp-step-2" href="./pages/vista_mpp.html" aria-label="Ver lista de mantenimientos">
+                    <div class="mpp-label">Ver Lista de<br />Mantenimientos</div>
+                    <div class="mpp-node mpp-node-blue">
+                        <div class="mpp-node-icon mpp-clipboard">
+                            <span class="mpp-clip-line"></span>
+                            <span class="mpp-clip-line short"></span>
+                            <span class="mpp-clip-line short"></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a class="mpp-step mpp-step-3" href="./pages/reprogramar_mpp.html" aria-label="Reprogramar mantenimiento">
+                    <div class="mpp-label">Reprogramar<br />Mantenimiento</div>
+                    <div class="mpp-node mpp-node-gold">
+                        <div class="mpp-node-icon mpp-calendar">
+                            <span class="mpp-calendar-top"></span>
+                            <span class="mpp-calendar-date">F</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a class="mpp-step mpp-step-4" href="./pages/asinar_mpp.html" aria-label="Asignar técnicos">
+                    <div class="mpp-label">Asignar<br />Técnicos</div>
+                    <div class="mpp-node mpp-node-blue">
+                        <div class="mpp-node-icon mpp-worker">
+                            <span class="mpp-hardhat"></span>
+                            <span class="mpp-face"></span>
+                            <span class="mpp-body"></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a class="mpp-step mpp-step-1" href="./pages/cierre_mpp.html" aria-label="Cerrar mantenimiento">
+                    <div class="mpp-label">Cerrar<br />Mantenimiento Preventivo</div>
+                    <div class="mpp-node mpp-node-green">
+                        <div class="mpp-node-icon mpp-check">✓</div>
+                    </div>
+                </a>
+
+                <a class="mpp-step mpp-step-6" href="./pages/indicador_mpp.html" aria-label="Indicadores de mantenimiento preventivo">
+                    <div class="mpp-label">Indicadores de<br />Mantenimiento Preventivo</div>
+                    <div class="mpp-node mpp-node-hex mpp-node-green">
+                        <div class="mpp-node-icon mpp-radar">
+                            <span class="mpp-radar-ring mpp-r1"></span>
+                            <span class="mpp-radar-ring mpp-r2"></span>
+                            <span class="mpp-radar-center"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </section>
 
         <hr>
@@ -127,7 +231,7 @@
             </div>
             <div class="informaciones-container">
                 <ol class="option-list">
-                    <li><a href="https://app.powerbi.com/groups/me/reports/9d6c32f5-0427-4b88-b8e9-5bbb67b17222/ReportSection?experience=power-bi" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-wrench"></i> Panel de Mantenimiento</a></li>
+                    <li><a href="./pages/reporte-ordenes.html"><i class="fa-solid fa-wrench"></i> Panel de Mantenimiento</a></li>
                     <li><a href="https://mvaceros.sharepoint.com/sites/SISTEMADETICKETPEDIDOS-LOGISTICAMV/Lists/SISTEMA%20TICKET%20%20LOGISTICA/AllItems.aspx?e=3%3Ad9f93b3ebd32486fa6ba6edb8d07b9b3&sharingv2=true&fromShare=true&at=9&CT=1743844213698&OR=OWA%2DNT%2DMail&CID=5d3ef917%2D5f01%2Dd2a5%2Dcaf8%2Da0387112bbce" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-truck"></i>Pedidos de Logística</a></li>
                     <li><a href="https://mvaceros-my.sharepoint.com/personal/reparaciones_metalurgicavera_com_py/Lists/08072023%20Registro%20de%20hormetros%20Grupo%20Generadores/AllItems.aspx?env=WebViewList&npsAction=createList" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-bolt"></i>Grupo Generadores</a></li>
                     <li><a href="https://mvaceros-my.sharepoint.com/personal/reparaciones_metalurgicavera_com_py/Lists/Reporte%20de%20Horas%20Trabajadas%20Maquinado%202026/AllItems.aspx?env=WebViewList" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-calendar-check"></i>Turnos Maquinas</a></li>
@@ -137,10 +241,10 @@
                 <div class="datos-container">
                     <h3>Vista previa del Panel de Mantenimiento</h3>
                     <iframe class="Datos"
-                        title="20231002 Reporte de Ordenes de Mantenimiento" 
+                        title="Resumen de órdenes de mantenimiento"
                         width="720" 
                         height="480" 
-                        src="https://app.powerbi.com/reportEmbed?reportId=9d6c32f5-0427-4b88-b8e9-5bbb67b17222&autoAuth=true&ctid=edda9b35-ed8b-45c9-964c-a6eb3ee4721b" 
+                        src="./pages/reporte-ordenes.html?embed=1"
                         frameborder="0" 
                         allowFullScreen="true">Panel de Mantenimiento
                     </iframe>

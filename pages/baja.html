@@ -6,7 +6,6 @@
         <title>Mantenimiento Metalúrgica Vera SRL</title>
         <link rel="icon" href="../img/Logo.png" type="image/png" sizes="32x32">
         <link rel="stylesheet" href="../css/styles.css">
-        <link rel="stylesheet" href="../css/estilo-visor.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
     <body>
@@ -34,7 +33,7 @@
                 <h1>Mantenimiento Metalúrgica Vera S.R.L.</h1>
                 <p>Garantizamos la confiabilidad, disponibilidad y eficiencia de los equipos e instalaciones industriales.</p>
             </div>
-            </div>  
+            </div>
             <div id="loginModal" class="login-modal">
                 <div class="login-modal-content">
                     <span id="closeLoginModal" class="login-close">&times;</span>
@@ -49,45 +48,49 @@
                     <div id="loginMensaje"></div>
                 </div>
             </div>
+            <div id="masterKeyModal" class="login-modal" aria-hidden="true">
+                <div class="login-modal-content">
+                    <span id="closeMasterKeyModal" class="login-close" role="button" tabindex="0" aria-label="Cerrar">&times;</span>
+                    <h2>Confirmar baja</h2>
+                    <p>Introduce la clave maestra para confirmar esta operación.</p>
+                    <form id="masterKeyForm">
+                        <label for="masterKey">Clave maestra:</label>
+                        <input type="password" id="masterKey" autocomplete="off" required>
+                        <div id="masterKeyMensaje" role="alert"></div>
+                        <div class="master-key-actions">
+                            <button type="submit">Confirmar contraseña</button>
+                            <button type="button" id="cancelMasterKey" class="master-key-cancel">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <script src="../js/api-config.js"></script>
             <script src="../js/login-modal.js"></script>
             <script src="../js/nav-responsive.js"></script>
         </header>
 
         <!--<hr>-->
-        <section class="selector-doc">
-            <div class="select-title">
-                <!--nuevo sector-->
-                <h2>Visor de documentos técnicos</h2>
-            </div>
-            <div class="container-select">
-                <label for="listaDocs">Archivo seleccionado:</label>
-                <!-- Select dinámico -->
-                <select class="pg-select" id="listaDocs" onchange="mostrarPDF()" aria-label="Archivo seleccionado">
-                    <option value="">-- Elegir documento --</option>
-                </select>
-            </div>
 
-            <div class="pg-iframe">
-                <!-- Iframe para mostrar PDF -->
-                <iframe id="visor"
-                title="Visor de documento técnico"
-                width="1080"
-                height="800">
-                </iframe>
-                
-                <div id="fallback">
-                    <p>
-                    <a id="fallback-link" href="#" target="_blank" rel="noopener noreferrer" title="Abrir documento PDF" aria-label="Abrir documento PDF">Abrir documento PDF</a>
-                    </p>
-                </div>
+            <main class="solicitud">
+                <div class="titulo"><h2>Formulario de solicitud de Baja de equipos</h2></div>
+                <form action="/api/ordenes/baja" method="post" id="bajaForm">
+                    <div>
+                        <label for="maquina">Solicitud/Maquina</label>
+                        <select id="maquina" name="id" required></select>
+                    </div>
+                    <p id="info-averia" class="info-averia"></p>
+                    <div class="campo-ancho">
+                        <label for="notas">Motivo de la baja</label>
+                        <textarea id="notas" name="notas" rows="5" placeholder="Describa la razón para dar de baja el equipo" required></textarea>
+                    </div>
+                    <button type="submit">Equipo para Baja</button>
+                </form>
 
-                <script src="../js/iframe-pdf.js"></script>
+                <script src="../js/cierre_ordenes.js"></script>
+                <script src="../js/baja_ordenes.js"></script>
 
-            </div>   
-                <!--fin de nuevo sector--> 
-        </section>
-  
+            </main>
     </body>
-    
 </html>
+
+

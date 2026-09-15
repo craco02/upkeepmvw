@@ -1,8 +1,16 @@
 let data = [];
 
-// Cargar datos desde archivo JSON
-fetch("../data/codigos.json")
-  .then(response => response.json())
+// Usa la copia local cuando la página se abre con file://; por HTTP conserva el JSON como fuente.
+const dataPromise = Array.isArray(window.codigosData)
+  ? Promise.resolve(window.codigosData)
+  : fetch("../data/codigos.json").then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.json();
+    });
+
+dataPromise
   .then(jsonData => {
     data = jsonData;
     renderTable(data);
@@ -16,9 +24,10 @@ function renderTable(filteredData) {
 
   filteredData.forEach(item => {
     const row = document.createElement("tr");
+    const descripcion = item["Descripción"] ?? item.descripcion;
     row.innerHTML = `
       <td>${item.codigo}</td>
-      <td>${item["Descripción"]}</td>
+      <td>${descripcion}</td>
     `;
     tableBody.appendChild(row);
   });
@@ -33,7 +42,7 @@ document.getElementById("codigos-search").addEventListener("input", function () 
 
   const filtered = data.filter(item => {
     const codigo = String(item.codigo).toLowerCase();
-    const descripcion = String(item["Descripción"]).toLowerCase();
+    const descripcion = String(item["Descripción"] ?? item.descripcion).toLowerCase();
 
     return terms.every(term =>
       codigo.includes(term) || descripcion.includes(term)
