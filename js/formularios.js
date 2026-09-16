@@ -5,6 +5,8 @@
   if (action.endsWith('/cierre')) return;
   if (form.dataset.submitHandlerBound === 'true') return;
   form.dataset.submitHandlerBound = 'true';
+  let isSubmitting = false;
+  const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
   const token = () => localStorage.getItem('token');
   const value = id => document.getElementById(id)?.value || '';
   const selectedText = element => element?.selectedOptions?.[0]?.text?.trim() || '';
@@ -71,11 +73,21 @@
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
+    if (isSubmitting) return;
+
     if (localStorage.getItem('role') !== 'editor' || !token()) return window.alert('Debe iniciar sesion como editor.');
     const data = payload();
     if (!data) return;
     if (action.endsWith('/asignacion') && !data.responsable) return window.alert('Seleccione un técnico responsable.');
     if ((action.endsWith('/ordenes') && (!data.codigo || !data.maquina_equipo)) || (!action.endsWith('/ordenes') && !data.id)) return window.alert('Seleccione primero una opcion de la lista.');
+
+    isSubmitting = true;
+    const originalButtonText = submitButton ? submitButton.textContent : '';
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+    }
+
     try {
       const response = await API_FETCH(action, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` }, body: JSON.stringify(data) });
       const responseText = await response.text();
@@ -91,6 +103,14 @@
         form.reset();
         window.location.href = 'lista_solicitudes.html';
       }
-    } catch (error) { window.alert(error.message); }
+    } catch (error) {
+      window.alert(error.message);
+    } finally {
+      isSubmitting = false;
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    }
   });
 })();
