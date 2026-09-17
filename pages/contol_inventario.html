@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mantenimiento Metalúrgica Vera SRL</title>
+        <link rel="icon" href="../img/Logo.png" type="image/png" sizes="32x32">
+        <link rel="stylesheet" href="../css/styles.css">
+        <link rel="stylesheet" href="../css/inventario.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    </head>
+    <body>
+        <header >
+          <nav class="nav-bar" aria-label="Navegación principal">
+            <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="nav-menu-wrap">
+              <ul class="list-bar">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../index.html#solicitudes">Solicitudes</a></li>
+                <li><a href="../index.html#mpp">MPP</a></li>
+                <li><a href="../index.html#informaciones">Informaciones</a></li>
+                <li><a href="../index.html#form-adds">Formularios</a></li>
+                <li><a href="../index.html#otros">Otros</a></li>
+                <li><a href="../index.html#contacto">Contacto</a></li>
+              </ul>
+              <div id="nav-login"></div>
+            </div>
+            </nav>
+            <div class="banner">
+            <div class="logo"><img height="150" width="150" src="../img/Logo.png" alt="logo metalurgica vera"></div>
+            <div class="hero">
+                <h1>Mantenimiento Metalúrgica Vera S.R.L.</h1>
+                <p>Garantizamos la confiabilidad, disponibilidad y eficiencia de los equipos e instalaciones industriales.</p>
+            </div>
+            </div>  
+            <div id="loginModal" class="login-modal">
+              <div class="login-modal-content">
+                <span id="closeLoginModal" class="login-close">&times;</span>
+                <h2>Inicio de Sesión</h2>
+                <form id="loginForm">
+                  <label for="user">Usuario:</label>
+                  <input type="text" id="user" name="user" required>
+                  <label for="password">Contraseña:</label>
+                  <input type="password" id="password" name="password" required>
+                  <button type="submit">Enviar</button>
+                </form>
+                <div id="loginMensaje"></div>
+              </div>
+            </div>
+        </header>
+
+        <h2 id="inventario-title">Control de Inventario</h2>
+        <input type="text" id="inventario-search" placeholder="Buscar por código o producto...">
+
+        <div id="inventario-table-wrap">
+          <table id="inventario-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Producto</th>
+                <th>UM</th>
+                <th>Unidades</th>
+                <th>Stock F9</th>
+                <th>Cantidad Física</th>
+                <th>Ubicación</th>
+              </tr>
+            </thead>
+            <tbody id="inventario-body">
+              <!-- Filas dinámicas -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="inventario-modal">
+          <div id="inventario-modal-content">
+            <span id="inventario-modal-close">&times;</span>
+            <h3 id="inventario-modal-title">Actualizar dato</h3>
+            <p id="inventario-modal-info"></p>
+            <form id="inventario-modal-form">
+              <label for="inventario-modal-input">Nuevo valor</label>
+              <input type="text" id="inventario-modal-input" required>
+              <div class="inventario-modal-actions">
+                <button type="button" id="inventario-modal-cancel">Cancelar</button>
+                <button type="submit" id="inventario-modal-save">Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <script src="../js/api-config.js"></script>
+        <script src="../js/login-modal.js"></script>
+        <script src="../js/inventario.js"></script>
+        <script src="../js/nav-responsive.js"></script>
+  </body>
+</html>
