@@ -42,6 +42,30 @@
   z-index: 1;
 }
 
+.inventario-sort {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.inventario-sort:hover,
+.inventario-sort:focus-visible {
+  text-decoration: underline;
+  outline: none;
+}
+
+.inventario-sort span { min-width: 0.8em; }
+
 #inventario-table tr:nth-child(even) {
   background: #f2f2f2;
 }

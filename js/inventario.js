@@ -1,18 +1,23 @@
 let inventarioData = [];
 let filaEnEdicion = null;
 let campoEnEdicion = null;
+let columnaOrden = null;
+let direccionOrden = "asc";
+const columnasNumericas = new Set(["StockF9", "CantidadFisica", "Diferencia"]);
+const collatorInventario = new Intl.Collator("es", { numeric: true, sensitivity: "base" });
 
 async function cargarInventario() {
   try {
     const res = await API_FETCH("/api/inventario");
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     inventarioData = await res.json();
-    renderInventarioTable(inventarioData);
+    actualizarVistaInventario();
   } catch (error) {
     console.error("Error cargando inventario:", error);
   }
 }
 
+configurarEncabezadosOrdenables();
 cargarInventario();
 
 function renderInventarioTable(items) {
@@ -26,8 +31,8 @@ function renderInventarioTable(items) {
       <td>${item.Codigo}</td>
       <td>${item.Producto}</td>
       <td>${item.UM}</td>
-      <td>${item.Unidades}</td>
       <td>${item.StockF9}</td>
+      <td>${item.Diferencia ?? ""}</td>
       <td>
         <input type="text" class="inventario-input inventario-input--modal" data-campo="CantidadFisica"
           value="${item.CantidadFisica ?? ""}" readonly>
@@ -42,8 +47,8 @@ function renderInventarioTable(items) {
 }
 
 // Filtrar datos dinámicamente
-document.getElementById("inventario-search").addEventListener("input", function () {
-  const searchValue = this.value.toLowerCase().trim();
+function obtenerInventarioVisible() {
+  const searchValue = document.getElementById("inventario-search").value.toLowerCase().trim();
   const terms = searchValue.replace(/%/g, " ").split(/\s+/).filter(Boolean);
 
   const filtered = inventarioData.filter(item => {
@@ -55,8 +60,52 @@ document.getElementById("inventario-search").addEventListener("input", function 
     );
   });
 
-  renderInventarioTable(filtered);
-});
+  if (!columnaOrden) return filtered;
+  return [...filtered].sort((a, b) => {
+    const valorA = a[columnaOrden];
+    const valorB = b[columnaOrden];
+    if (valorA == null && valorB == null) return 0;
+    if (valorA == null) return 1;
+    if (valorB == null) return -1;
+    const comparacion = columnasNumericas.has(columnaOrden)
+      ? Number(valorA) - Number(valorB)
+      : collatorInventario.compare(String(valorA), String(valorB));
+    return direccionOrden === "asc" ? comparacion : -comparacion;
+  });
+}
+
+function actualizarVistaInventario() {
+  renderInventarioTable(obtenerInventarioVisible());
+  document.querySelectorAll(".inventario-sort").forEach(button => {
+    const activa = button.dataset.sort === columnaOrden;
+    button.closest("th").setAttribute("aria-sort", activa ? (direccionOrden === "asc" ? "ascending" : "descending") : "none");
+    button.querySelector("span").textContent = activa ? (direccionOrden === "asc" ? "▲" : "▼") : "";
+  });
+}
+
+function configurarEncabezadosOrdenables() {
+  const columnas = ["Codigo", "Producto", "UM", "StockF9", "Diferencia", "CantidadFisica", "Ubicacion"];
+  document.querySelectorAll("#inventario-table th").forEach((th, indice) => {
+    const etiqueta = th.textContent.trim();
+    const button = document.createElement("button");
+    const icono = document.createElement("span");
+    button.type = "button";
+    button.className = "inventario-sort";
+    button.dataset.sort = columnas[indice];
+    button.append(document.createTextNode(`${etiqueta} `), icono);
+    button.addEventListener("click", () => {
+      const nuevaColumna = button.dataset.sort;
+      direccionOrden = columnaOrden === nuevaColumna && direccionOrden === "asc" ? "desc" : "asc";
+      columnaOrden = nuevaColumna;
+      actualizarVistaInventario();
+    });
+    th.replaceChildren(button);
+    th.setAttribute("scope", "col");
+    th.setAttribute("aria-sort", "none");
+  });
+}
+
+document.getElementById("inventario-search").addEventListener("input", actualizarVistaInventario);
 
 // Abrir modal al hacer click en el campo Cantidad Física
 document.getElementById("inventario-body").addEventListener("click", function (event) {
@@ -129,12 +178,8 @@ document.getElementById("inventario-modal-form").addEventListener("submit", asyn
   try {
     const actualizado = await guardarCampo(filaEnEdicion.Codigo, campoEnEdicion, nuevoValor);
     filaEnEdicion.CantidadFisica = actualizado.CantidadFisica;
-
-    const row = document.querySelector(`#inventario-body tr[data-codigo="${filaEnEdicion.Codigo}"]`);
-    if (row) {
-      const input = row.querySelector(`.inventario-input[data-campo="${campoEnEdicion}"]`);
-      if (input) input.value = actualizado.CantidadFisica ?? "";
-    }
+    filaEnEdicion.Diferencia = actualizado.Diferencia;
+    actualizarVistaInventario();
 
     cerrarInventarioModal();
   } catch (error) {
