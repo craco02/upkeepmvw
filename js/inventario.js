@@ -34,12 +34,16 @@ function renderInventarioTable(items) {
       <td>${item.StockF9}</td>
       <td class="${obtenerClaseDiferencia(item.Diferencia)}">${item.Diferencia ?? ""}</td>
       <td>
-        <input type="text" class="inventario-input inventario-input--modal" data-campo="CantidadFisica"
+        <input type="text" class="inventario-input inventario-input--modal" data-campo="CantidadFisica" data-etiqueta="Cantidad Física"
           value="${item.CantidadFisica ?? ""}" readonly>
       </td>
       <td>
-        <input type="text" class="inventario-input inventario-input--editable" data-campo="Ubicacion"
-          value="${item.Ubicacion ?? ""}">
+        <input type="text" class="inventario-input inventario-input--modal" data-campo="Ubicacion" data-etiqueta="Ubicación"
+          value="${item.Ubicacion ?? ""}" readonly>
+      </td>
+      <td>
+        <input type="text" class="inventario-input inventario-input--modal" data-campo="Observacion" data-etiqueta="Observación"
+          value="${item.Observacion ?? ""}" readonly>
       </td>
     `;
     tableBody.appendChild(row);
@@ -93,7 +97,7 @@ function actualizarVistaInventario() {
 }
 
 function configurarEncabezadosOrdenables() {
-  const columnas = ["Codigo", "Producto", "UM", "StockF9", "Diferencia", "CantidadFisica", "Ubicacion"];
+  const columnas = ["Codigo", "Producto", "UM", "StockF9", "Diferencia", "CantidadFisica", "Ubicacion", "Observacion"];
   document.querySelectorAll("#inventario-table th").forEach((th, indice) => {
     const etiqueta = th.textContent.trim();
     const button = document.createElement("button");
@@ -116,7 +120,7 @@ function configurarEncabezadosOrdenables() {
 
 document.getElementById("inventario-search").addEventListener("input", actualizarVistaInventario);
 
-// Abrir modal al hacer click en el campo Cantidad Física
+// Todos los campos editables se actualizan desde su modal.
 document.getElementById("inventario-body").addEventListener("click", function (event) {
   const input = event.target.closest(".inventario-input--modal");
   if (!input) return;
@@ -130,10 +134,12 @@ document.getElementById("inventario-body").addEventListener("click", function (e
   filaEnEdicion = item;
   campoEnEdicion = campo;
 
-  document.getElementById("inventario-modal-title").textContent = "Actualizar Cantidad Física";
+  const etiqueta = input.dataset.etiqueta || campo;
+  document.getElementById("inventario-modal-title").textContent = `Actualizar ${etiqueta}`;
   document.getElementById("inventario-modal-info").textContent = `${item.Codigo} - ${item.Producto}`;
   document.getElementById("inventario-modal-input").value = item[campo] ?? "";
-  document.getElementById("inventario-modal-input").type = "number";
+  document.getElementById("inventario-modal-input").type = campo === "CantidadFisica" ? "number" : "text";
+  document.getElementById("inventario-modal-input").step = campo === "CantidadFisica" ? "any" : "";
 
   document.getElementById("inventario-modal").style.display = "flex";
   document.getElementById("inventario-modal-input").focus();
@@ -150,30 +156,6 @@ async function guardarCampo(codigo, campo, valor) {
   return data;
 }
 
-// Ubicación es un campo de texto editable directamente en la fila
-document.getElementById("inventario-body").addEventListener("change", async function (event) {
-  const input = event.target.closest(".inventario-input--editable");
-  if (!input) return;
-
-  const row = input.closest("tr");
-  const codigo = row.dataset.codigo;
-  const item = inventarioData.find(i => String(i.Codigo) === String(codigo));
-  if (!item) return;
-
-  const valorAnterior = item[input.dataset.campo];
-  const valorNuevo = input.value.trim();
-
-  try {
-    const actualizado = await guardarCampo(codigo, input.dataset.campo, valorNuevo);
-    item.Ubicacion = actualizado.Ubicacion;
-    input.value = actualizado.Ubicacion ?? "";
-  } catch (error) {
-    console.error("Error guardando ubicación:", error);
-    input.value = valorAnterior ?? "";
-    alert(error.message || "No se pudo actualizar la ubicación");
-  }
-});
-
 // Guardar cambio del modal
 document.getElementById("inventario-modal-form").addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -186,14 +168,13 @@ document.getElementById("inventario-modal-form").addEventListener("submit", asyn
   botonGuardar.disabled = true;
   try {
     const actualizado = await guardarCampo(filaEnEdicion.Codigo, campoEnEdicion, nuevoValor);
-    filaEnEdicion.CantidadFisica = actualizado.CantidadFisica;
-    filaEnEdicion.Diferencia = actualizado.Diferencia;
+    Object.assign(filaEnEdicion, actualizado);
     actualizarVistaInventario();
 
     cerrarInventarioModal();
   } catch (error) {
-    console.error("Error guardando cantidad física:", error);
-    alert(error.message || "No se pudo actualizar la cantidad física");
+    console.error("Error guardando inventario:", error);
+    alert(error.message || "No se pudo actualizar el dato");
   } finally {
     botonGuardar.disabled = false;
   }
