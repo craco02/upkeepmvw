@@ -32,7 +32,7 @@ function renderInventarioTable(items) {
       <td>${item.Producto}</td>
       <td>${item.UM}</td>
       <td>${item.StockF9}</td>
-      <td>${item.Diferencia ?? ""}</td>
+      <td class="${obtenerClaseDiferencia(item.Diferencia)}">${item.Diferencia ?? ""}</td>
       <td>
         <input type="text" class="inventario-input inventario-input--modal" data-campo="CantidadFisica"
           value="${item.CantidadFisica ?? ""}" readonly>
@@ -72,6 +72,15 @@ function obtenerInventarioVisible() {
       : collatorInventario.compare(String(valorA), String(valorB));
     return direccionOrden === "asc" ? comparacion : -comparacion;
   });
+}
+
+function obtenerClaseDiferencia(diferencia) {
+  if (diferencia === null || diferencia === undefined || diferencia === "") return "";
+  const valor = Number(diferencia);
+  if (Number.isNaN(valor)) return "";
+  if (valor < 0) return "inventario-diferencia--negativa";
+  if (valor === 0) return "inventario-diferencia--cero";
+  return "inventario-diferencia--positiva";
 }
 
 function actualizarVistaInventario() {

@@ -66,6 +66,18 @@
 
 .inventario-sort span { min-width: 0.8em; }
 
+#inventario-table td.inventario-diferencia--negativa {
+  background-color: #fef08a;
+}
+
+#inventario-table td.inventario-diferencia--cero {
+  background-color: #86efac;
+}
+
+#inventario-table td.inventario-diferencia--positiva {
+  background-color: #fca5a5;
+}
+
 #inventario-table tr:nth-child(even) {
   background: #f2f2f2;
 }
