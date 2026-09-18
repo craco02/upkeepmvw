@@ -83,7 +83,7 @@ document.getElementById("inventario-body").addEventListener("click", function (e
 
 async function guardarCampo(codigo, campo, valor) {
   const res = await API_FETCH(`/api/inventario/${encodeURIComponent(codigo)}`, {
-    method: "POST",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ [campo]: valor })
   });
